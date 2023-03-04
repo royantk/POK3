@@ -6,39 +6,22 @@ import { useState } from 'react';
 import { Header } from './components/Header';
 import { Catalogue } from './components/Catalogue';
 import './styles/App.css';
+import { StyledEngineProvider } from '@mui/material/styles';
+import { faker } from '@faker-js/faker';
 
-const products = [
-  {
-    id: 1,
-    name: 'Product 1',
-    price: 100,
-    image: 'https://picsum.photos/200/300',
-  },
-  {
-    id: 2,
-    name: 'Product 2',
-    price: 200,
-    image: 'https://picsum.photos/200/300',
-  },
-  {
-    id: 3,
-    name: 'Product 3',
-    price: 300,
-    image: 'https://picsum.photos/200/300',
-  },
-  {
-    id: 4,
-    name: 'Product 4',
-    price: 400,
-    image: 'https://picsum.photos/200/300',
-  },
-  {
-    id: 5,
-    name: 'Product 5',
-    price: 500,
-    image: 'https://picsum.photos/200/300',
-  },
-];
+const products = [];
+
+for (let i = 1; i <= 5; i++) {
+  const name = faker.commerce.productName();
+  const product = {
+    id: i,
+    name: faker.commerce.productName(),
+    price: faker.commerce.price(),
+    image: "https://picsum.photos/200?random="+i,
+    description: faker.commerce.productDescription(),
+  };
+  products.push(product);
+}
 
 // Cart handling with useState
 
@@ -52,9 +35,15 @@ export function App() {
   };
 
   return (
-    <div className="app">
-      <h1>Products</h1>
-      <Catalogue products={products} addToCart={addToCart} />
-    </div>
+    <StyledEngineProvider injectFirst>
+      <div className="app">
+        <div className="app-head">
+          <h1>Lorem Ipsum</h1>
+          <p>Lorem Ipsum Dolor Sit Amet</p>
+        </div>
+        <Catalogue products={products} addToCart={addToCart} />
+      </div>
+    </StyledEngineProvider>
+
   );
 }
