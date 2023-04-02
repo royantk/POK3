@@ -1,14 +1,12 @@
 // This is the home page of an ecommerce website. It displays a list of products.
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import { useState } from 'react';
 import { Product } from './components/Product';
 
-import { Catalogue } from './components/Catalogue';
 import { Home } from './components/Home';
+import { Cart } from './components/Cart';
 import './styles/App.css';
-import { StyledEngineProvider } from '@mui/material/styles';
 import { faker } from '@faker-js/faker';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -33,12 +31,21 @@ export function App() {
     setCart([...cart, product]);
   };
 
+  // Doit retirer une seule instance du produit du panier
+  const removeFromCart = (product) => {
+    productid = cart.indexOf(product);
+    setCart(cart.filter((_, i) => i !== productid));
+  };
+
+
   return (
     <Router>
       <div>
         <Routes>
-          <Route exact path="/" element={<Home products={products} addToCart={addToCart}/>}/>
-          <Route path="/product/:id" element={<Product  products={products} addToCart={addToCart}/>} />
+          <Route exact path="/" element={<Home products={products} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart}/>}/>
+          <Route path="/product/:id" element={<Product  products={products} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart}/>} />
+          <Route path="/cart" element={<Cart products={products} cart={cart} addToCart={addToCart} removeFromCart={removeFromCart}/>} />
+          <Route path="*" element={<div>404 Not Found</div>} />
         </Routes>
       </div>
     </Router>
